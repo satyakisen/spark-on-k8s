@@ -24,7 +24,14 @@ COPY examples /opt/spark/examples
 COPY ${k8s_tests} /opt/spark/tests
 COPY data /opt/spark/data
 
+
+
 ENV SPARK_HOME /opt/spark
+
+# Updating the kubernetes client to fix pod with null name bug
+RUN rm $SPARK_HOME/jars/kubernetes-client-4.1.2.jar
+ADD https://repo1.maven.org/maven2/io/fabric8/kubernetes-client/4.4.2/kubernetes-client-4.4.2.jar $SPARK_HOME/jars
+RUN chmod 644 $SPARK_HOME/jars/kubernetes-client-4.4.2.jar
 
 WORKDIR /opt/spark/work-dir
 
