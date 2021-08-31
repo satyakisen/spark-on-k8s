@@ -21,13 +21,19 @@ The spark docker directory consists of Apache Spark Scala and Python base images
 one can submit the spark applications into kubernetes. We will be using the [Spark
 kubernetes operator](https://github.com/GoogleCloudPlatform/spark-on-k8s-operator) for the demo. <br>
 
-The scala base image can be built using the following command:
+The Scala base image can be built using the following command:
 ```bash
 ./scala/build.sh <DOCKER_IMAGE_VERSION> <SPARK_ROOT_DIR>
 ```
 Once the image is built, it can be tagged and pushed to respective docker repository.
 
-The python base image is in progress
+The Python base image can be built using the following command:
+```bash
+./spark-docker/python/build.sh <DOCKER_IMAGE_VERSION> <SPARK_ROOT_DIR> <SCALA_SPARK_BASE_IMAGE>
+```
+
+The Scala Spark base image is required for building the Python Spark base image.
+Once the image is built, it can be tagged and pushed to respective docker repository.
 
 <a name="spark-k8s-ops"></a>
 ## Spark K8S Operator
