@@ -1,3 +1,8 @@
+FROM openjdk:8-alpine AS builder
+WORKDIR /root
+ADD https://archive.apache.org/dist/spark/spark-2.4.4/spark-2.4.4-bin-hadoop2.7.tgz /root/spark-2.4.4-bin-hadoop2.7.tgz
+RUN tar -xvf /root/spark-2.4.4-bin-hadoop2.7.tgz
+
 FROM openjdk:8-alpine
 
 ARG spark_jars=jars
@@ -16,13 +21,13 @@ RUN set -ex && \
     echo "auth required pam_wheel.so use_uid" >> /etc/pam.d/su && \
     chgrp root /etc/passwd && chmod ug+rw /etc/passwd
 
-COPY ${spark_jars} /opt/spark/jars
-COPY bin /opt/spark/bin
-COPY sbin /opt/spark/sbin
-COPY ${img_path}/spark/entrypoint.sh /opt/
-COPY examples /opt/spark/examples
-COPY ${k8s_tests} /opt/spark/tests
-COPY data /opt/spark/data
+COPY --from=builder /root/spark-2.4.4-bin-hadoop2.7/${spark_jars} /opt/spark/jars
+COPY --from=builder /root/spark-2.4.4-bin-hadoop2.7/bin /opt/spark/bin
+COPY --from=builder /root/spark-2.4.4-bin-hadoop2.7/sbin /opt/spark/sbin
+COPY --from=builder /root/spark-2.4.4-bin-hadoop2.7/examples /opt/spark/examples
+COPY --from=builder /root/spark-2.4.4-bin-hadoop2.7/${k8s_tests} /opt/spark/tests
+COPY --from=builder /root/spark-2.4.4-bin-hadoop2.7/data /opt/spark/data
+COPY entrypoint.sh /opt/
 
 
 
