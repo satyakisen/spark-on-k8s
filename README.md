@@ -13,7 +13,7 @@ Apache Spark version 2.4.4 is used in this demo project.
 <a name="pre-requisite"></a>
 ## Pre-requisite
 1. Spark Docker
-   * [Apache Spark](https://archive.apache.org/dist/spark/spark-2.4.4/spark-2.4.4-bin-hadoop2.7.tgz)
+   * Docker
 
 <a name="spark-docker"></a>
 ## Spark Docker
@@ -23,13 +23,13 @@ kubernetes operator](https://github.com/GoogleCloudPlatform/spark-on-k8s-operato
 
 The Scala base image can be built using the following command:
 ```bash
-./scala/build.sh <DOCKER_IMAGE_VERSION> <SPARK_ROOT_DIR>
+docker build -t <IMAGE_NAME>:<IMAGE_VERSION> ./spark-docker/scala/
 ```
 Once the image is built, it can be tagged and pushed to respective docker repository.
 
 The Python base image can be built using the following command:
 ```bash
-./spark-docker/python/build.sh <DOCKER_IMAGE_VERSION> <SPARK_ROOT_DIR> <SCALA_SPARK_BASE_IMAGE>
+docker build -t <IMAGE_NAME>:<IMAGE_VERSION> --build-args base_image=<SCALA_SPARK_BASE_IMAGE> ./spark-docker/python/ 
 ```
 
 The Scala Spark base image is required for building the Python Spark base image.
