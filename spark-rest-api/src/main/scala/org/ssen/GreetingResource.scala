@@ -7,6 +7,6 @@ import javax.ws.rs.core.MediaType
 class GreetingResource {
 
     @GET
-    @Produces(Array[String](MediaType.TEXT_PLAIN))
+    @Produces(Array[String](MediaType.APPLICATION_JSON))
     def hello() = "Hello RESTEasy"
 }
