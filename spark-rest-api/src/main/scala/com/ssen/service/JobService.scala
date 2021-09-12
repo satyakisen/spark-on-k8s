@@ -8,10 +8,10 @@ import javax.enterprise.context.ApplicationScoped
 
 @ApplicationScoped
 class JobService {
+
   private[this] var client : DefaultKubernetesClient = _
-
-
   private[this] var crdContext: CustomResourceDefinitionContext = _
+
   @PostConstruct
   def init():Unit  = {
     client = new DefaultKubernetesClient()
@@ -26,13 +26,11 @@ class JobService {
       .build()
   }
 
-  def getJobDetailsByName(namespace: String, name: String): java.util.Map[String, AnyRef] = {
+  def getJobDetailsByName(namespace: String, name: String): java.util.Map[String, AnyRef] =
     client.customResource(crdContext).inNamespace(namespace).withName(name).get()
-  }
 
-  def submitJob(namespace: String, crdJson: java.util.Map[String, AnyRef]): java.util.Map[String, AnyRef] = {
+  def submitJob(namespace: String, crdJson: java.util.Map[String, AnyRef]): java.util.Map[String, AnyRef] =
     client.customResource(crdContext).inNamespace(namespace).create(crdJson)
-  }
 
 
   def deleteJob(namespace: String, name: String): Boolean = client.customResource(crdContext).inNamespace(namespace).withName(name).delete()
