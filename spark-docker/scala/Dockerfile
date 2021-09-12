@@ -29,6 +29,7 @@ COPY --from=builder /root/spark-2.4.4-bin-hadoop2.7/${k8s_tests} /opt/spark/test
 COPY --from=builder /root/spark-2.4.4-bin-hadoop2.7/data /opt/spark/data
 COPY entrypoint.sh /opt/
 
+RUN chmod +x /opt/entrypoint.sh
 
 
 ENV SPARK_HOME /opt/spark
